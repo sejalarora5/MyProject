@@ -21,7 +21,8 @@ const LandingScreen = ({navigation}: Props) => {
         <Image
           style={styles.logo}
           source={require('../assets/logo.png')}></Image>
-        <Text style={styles.textStyle}>Sell What You Don't Need</Text>
+        {/* <Text style={styles.textStyle}>Sell What You Don't Need</Text> */}
+        <Text style={styles.textStyle}>we provide what you need...</Text>
       </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
@@ -59,6 +60,7 @@ const styles = StyleSheet.create({
     padding: 15,
     margin: 2,
     width: '100%',
+    marginBottom: 5,
   },
   logoContainer: {
     position: 'absolute',
@@ -79,5 +81,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: 'grey',
+    paddingTop: 10,
   },
 });

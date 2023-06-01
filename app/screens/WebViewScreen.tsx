@@ -10,7 +10,7 @@ const WebViewScreen = () => {
       <WebView
         ref={webViewRef}
         source={{
-          uri: 'https://www.facebook.com/',
+          uri: 'https://www.instagram.com/',
         }}
       />
       <Button

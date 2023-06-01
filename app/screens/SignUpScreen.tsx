@@ -8,16 +8,18 @@ import {
   Modal,
   FlatList,
   Button,
+  ScrollView,
 } from 'react-native';
-// import {
-//   RadioButton,
-//   RadioButtonProps,
-//   RadioGroup,
-// } from 'react-native-radio-buttons-group';
-import React, {useMemo} from 'react';
+import React from 'react';
 import {useState} from 'react';
+import {Formik} from 'formik';
+import * as Yup from 'yup';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {RootStackParamList} from '../../App';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {setUserLoggedIn} from '../../redux/actions/loginActions';
+import {useDispatch} from 'react-redux';
+import colors from '../config/colors';
 type Props = NativeStackScreenProps<RootStackParamList, 'Signup'>;
 const countries = [
   {
@@ -45,14 +47,17 @@ const countries = [
     name: 'USA',
   },
 ];
+
+const validationSchema = Yup.object().shape({
+  name: Yup.string().required().label('Name'),
+  email: Yup.string().required().email().label('Email'),
+  contact: Yup.string().required().min(10).max(10).label('Phone number'),
+  password: Yup.string().required().min(6).max(12).label('Password'),
+});
 const SignUpScreen = ({navigation}: Props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedId, setSelectedId] = useState();
-  const [selectedItem, setSelectedItem] = useState('Country');
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [contact, setContact] = useState('');
-  const [password, setPass] = useState('');
+  const [selectedItem, setSelectedItem] = useState('Select');
 
   const handleOpenModal = () => {
     setModalVisible(true);
@@ -61,121 +66,131 @@ const SignUpScreen = ({navigation}: Props) => {
     setModalVisible(false);
   };
 
-  // const radioButtons: RadioButtonProps[] = useMemo(
-  //   () => [
-  //     {
-  //       id: '1',
-  //       value: 'male',
-  //       label: 'Male',
-  //     },
-  //     {
-  //       id: '2',
-  //       value: 'female',
-  //       label: 'Female',
-  //     },
-  //   ],
-  //   [],
-  // );
-
+  const dispatch = useDispatch();
   const handlePress = () => {
-    //await AsyncStorage.setItem('userToken', 'true');
-    navigation.navigate('Tab');
+    navigation.navigate('Home');
+    dispatch(setUserLoggedIn());
   };
 
   const [selectedRadio, setSelectedRadio] = useState(0);
 
   return (
+    // <ScrollView style={styles.mainContainer}>
     <View style={styles.mainContainer}>
       <Image style={styles.logo} source={require('../assets/logo.png')}></Image>
-      <Text style={styles.headerText}>Register</Text>
-      <TextInput
-        style={styles.input}
-        value={name}
-        onChangeText={text => setName(text)}
-        placeholder="Enter name"
-      />
-      <TextInput
-        style={styles.input}
-        value={email}
-        onChangeText={text => setEmail(text)}
-        placeholder="Enter email"
-        keyboardType="email-address"
-      />
-      <TextInput
-        style={styles.input}
-        value={contact}
-        onChangeText={text => setContact(text)}
-        placeholder="Enter phone number"
-        keyboardType="numeric"
-      />
-      <View style={styles.radioContainer}>
-        {/* <RadioGroup
-          radioButtons={radioButtons}
-          onPress={setSelectedId}
-          selectedId={selectedId}
-        /> */}
-        <TouchableOpacity onPress={() => setSelectedRadio(1)}>
-          <View style={styles.radioWrapper}>
-            <View style={styles.radio}>
-              {selectedRadio === 1 ? (
-                <View style={styles.radioBg}></View>
-              ) : null}
-            </View>
-            <Text style={styles.radioText}>Male</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => setSelectedRadio(2)}>
-          <View style={styles.radioWrapper}>
-            <View style={styles.radio}>
-              {selectedRadio === 2 ? (
-                <View style={styles.radioBg}></View>
-              ) : null}
-            </View>
-            <Text style={styles.radioText}>Female</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
+      {/* <Text style={styles.headerText}>Register</Text> */}
 
-      <TextInput
-        style={styles.input}
-        value={password}
-        onChangeText={text => setPass(text)}
-        placeholder="Enter password"
-        secureTextEntry={true}
-      />
-      <TouchableOpacity style={styles.button1} onPress={handleOpenModal}>
-        <Text style={styles.buttonText}>{selectedItem}</Text>
-      </TouchableOpacity>
-      <Modal animationType="fade" visible={modalVisible} transparent={true}>
-        <View style={styles.modalContent}>
-          <FlatList
-            data={countries}
-            renderItem={({item}) => (
-              <TouchableOpacity onPress={() => setSelectedItem(item.name)}>
-                <Text style={styles.modalText}>{item.name}</Text>
+      <Formik
+        initialValues={{name: '', email: '', contact: '', password: ''}}
+        onSubmit={handlePress}
+        validationSchema={validationSchema}>
+        {({handleChange, handleSubmit, errors, values}) => (
+          <>
+            <TextInput
+              style={styles.input}
+              value={values.name}
+              onChangeText={handleChange('name')}
+              placeholder="Enter name"
+            />
+            <TextInput
+              style={styles.input}
+              value={values.email}
+              onChangeText={handleChange('email')}
+              placeholder="Enter email"
+              keyboardType="email-address"
+            />
+            <TextInput
+              style={styles.input}
+              value={values.contact}
+              onChangeText={handleChange('contact')}
+              placeholder="Enter phone number"
+              keyboardType="numeric"
+            />
+            <TextInput
+              style={styles.input}
+              value={values.password}
+              onChangeText={handleChange('password')}
+              placeholder="Enter password"
+              secureTextEntry={true}
+            />
+            <View style={styles.radioContainer}>
+              <Text style={styles.genderText}>Gender: </Text>
+              <TouchableOpacity onPress={() => setSelectedRadio(1)}>
+                <View style={styles.radioWrapper}>
+                  <View style={styles.radio}>
+                    {selectedRadio === 1 ? (
+                      <View style={styles.radioBg}></View>
+                    ) : null}
+                  </View>
+                  <Text style={styles.radioText}>Male</Text>
+                </View>
               </TouchableOpacity>
+              <TouchableOpacity onPress={() => setSelectedRadio(2)}>
+                <View style={styles.radioWrapper}>
+                  <View style={styles.radio}>
+                    {selectedRadio === 2 ? (
+                      <View style={styles.radioBg}></View>
+                    ) : null}
+                  </View>
+                  <Text style={styles.radioText}>Female</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.modalBtn}>
+              <Text style={styles.genderText}>Country: </Text>
+              <TouchableOpacity
+                style={styles.button1}
+                onPress={handleOpenModal}>
+                <Text style={styles.countryFieldText}>{selectedItem}</Text>
+              </TouchableOpacity>
+            </View>
+            <Modal
+              animationType="fade"
+              visible={modalVisible}
+              transparent={true}>
+              <View style={styles.modalContent}>
+                <FlatList
+                  data={countries}
+                  renderItem={({item}) => (
+                    <TouchableOpacity
+                      // onPress={() => setSelectedItem(item.name)}
+                      onPress={() => {
+                        setSelectedItem(item.name);
+                        handleCloseModal();
+                      }}>
+                      <Text style={styles.modalText}>{item.name}</Text>
+                    </TouchableOpacity>
+                  )}
+                  keyExtractor={item => item.id}
+                  ItemSeparatorComponent={myItemSeparator}
+                  ListHeaderComponent={myHeaderComponent}
+                  style={styles.modalFlatList}></FlatList>
+                <Button title="Close" onPress={handleCloseModal}></Button>
+              </View>
+            </Modal>
+            {Object.keys(errors).length > 0 && (
+              <Text style={styles.error}>{Object.values(errors)[0]}</Text>
             )}
-            keyExtractor={item => item.id}
-            ItemSeparatorComponent={myItemSeparator}
-            ListHeaderComponent={myHeaderComponent}
-            style={styles.modalFlatList}></FlatList>
-          <Button title="Close" onPress={handleCloseModal}></Button>
-        </View>
-      </Modal>
 
-      <View style={styles.container}>
-        <TouchableOpacity style={styles.button1} onPress={handlePress}>
-          <Text style={styles.buttonText}>Sign Up</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button2}
-          onPress={() => {
-            navigation.navigate('Login');
-          }}>
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-      </View>
+            <View style={styles.container}>
+              <TouchableOpacity style={styles.signupBtn} onPress={handleSubmit}>
+                <Text style={styles.buttonText}>Sign Up</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.loginBtn}
+                onPress={() => {
+                  navigation.navigate('Login');
+                }}>
+                <Text style={styles.signUpBtnText}>
+                  Already have an Account?
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </>
+        )}
+      </Formik>
     </View>
+    // </ScrollView>
   );
 };
 
@@ -194,7 +209,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   radioText: {
-    fontSize: 18,
+    fontSize: 17,
+    color: 'black',
   },
   radioWrapper: {
     flexDirection: 'row',
@@ -215,18 +231,20 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     margin: 4,
   },
-
-  button1: {
-    height: 45,
-    backgroundColor: 'dodgerblue',
-    borderRadius: 5,
-    paddingHorizontal: 50,
+  genderText: {
+    marginTop: 11,
+    color: 'black',
+    fontSize: 20,
+    fontWeight: 'bold',
   },
-  button2: {
+  signupBtn: {
     height: 45,
-    backgroundColor: 'green',
+    backgroundColor: 'black',
     borderRadius: 5,
     paddingHorizontal: 50,
+    marginTop: 10,
+    marginBottom: 5,
+    elevation: 7,
   },
   buttonText: {
     fontSize: 20,
@@ -235,30 +253,60 @@ const styles = StyleSheet.create({
     flex: 1,
     color: 'white',
   },
+  countryFieldText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    flex: 1,
+    color: 'black',
+  },
+  signUpBtnText: {
+    fontSize: 20,
+    color: 'black',
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    padding: 15,
+    textDecorationLine: 'underline',
+  },
+  button1: {
+    height: 45,
+    backgroundColor: 'white',
+    elevation: 5,
+    color: 'black',
+    borderRadius: 5,
+    paddingHorizontal: 50,
+  },
+  loginBtn: {
+    borderRadius: 5,
+    paddingHorizontal: 50,
+    color: 'black',
+  },
   container: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    width: '100%',
   },
   input: {
     height: 45,
     borderWidth: 1,
-    padding: 10,
+    padding: 12,
     borderRadius: 7,
-    borderColor: 'gray',
+    elevation: 10,
+    borderColor: 'lightgray',
+    color: 'black',
     backgroundColor: 'white',
-    //textAlign: 'center',
   },
   logo: {
     width: 150,
-    height: 95,
+    height: 94,
     alignSelf: 'center',
+    marginBottom: 20,
   },
   mainContainer: {
     // marginHorizontal: 20,
-    paddingHorizontal: 20,
+    paddingHorizontal: 25,
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#EFDCF9',
+    backgroundColor: colors.white,
     rowGap: 20,
   },
   btnStyle: {
@@ -271,6 +319,10 @@ const styles = StyleSheet.create({
   modalFlatList: {
     height: 160,
     width: '90%',
+  },
+  modalBtn: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
   },
   modalContent: {
     alignItems: 'center',
@@ -301,6 +353,11 @@ const styles = StyleSheet.create({
   radioButton: {
     flex: 1,
     flexDirection: 'column',
+  },
+  error: {
+    color: 'red',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
 

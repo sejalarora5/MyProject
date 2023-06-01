@@ -26,11 +26,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   mainContainer: {
-    //paddingHorizontal: 20,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor: '#EFDCF9',
-    // rowGap: 20,
   },
 });

@@ -3,6 +3,9 @@ import {applyMiddleware, combineReducers, createStore} from 'redux';
 import {reducer} from '../reducers/ApiFetchReducer';
 import thunk from 'redux-thunk';
 import {persistReducer, persistStore} from 'redux-persist';
+import {cartReducer} from '../reducers/cartReducer';
+import {wishlistReducer} from '../reducers/wishlistReducer';
+import {authReducer} from '../reducers/authReducer';
 
 const persistConfig = {
   key: 'root',
@@ -10,7 +13,10 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
-  reducer,
+  products: reducer,
+  cart: cartReducer,
+  wishlist: wishlistReducer,
+  auth: authReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

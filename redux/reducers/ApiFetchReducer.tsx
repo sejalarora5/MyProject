@@ -5,12 +5,12 @@ import {
 } from '../actionTypes/fetchActionTypes';
 
 export type initState = {
-  loading: boolean,
-  products: [],
-  error: string
-}
+  loading: boolean;
+  products: [];
+  error: string;
+};
 
- const initialState = {
+const initialState = {
   loading: false,
   products: [],
   error: '',
@@ -25,12 +25,14 @@ export const reducer = (state = initialState, action: any) => {
       };
     case FETCH_USERS_SUCCESS:
       return {
+        ...state,
         loading: false,
         products: action.payload,
         error: '',
       };
     case FETCH_USERS_FAILURE:
       return {
+        ...state,
         loading: false,
         products: [],
         error: action.payload,

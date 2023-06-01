@@ -7,48 +7,88 @@ import {
   TextInput,
 } from 'react-native';
 import React from 'react';
-import {useState} from 'react';
 import {RootStackParamList} from '../../App';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {Formik} from 'formik';
+import * as Yup from 'yup';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import colors from '../config/colors';
+import {useDispatch} from 'react-redux';
+import {setUserLoggedIn} from '../../redux/actions/loginActions';
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
-const LoginScreen = ({navigation}: Props) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+const validationSchema = Yup.object().shape({
+  email: Yup.string().required().email().label('Email'),
+  password: Yup.string().required().min(6).max(12).label('Password'),
+});
 
+const LoginScreen = ({navigation}: Props) => {
+  const dispatch = useDispatch();
   const handlePress = () => {
-    navigation.navigate('Tab');
+    navigation.navigate('Home');
+    dispatch(setUserLoggedIn());
   };
   return (
     <View style={styles.mainContainer}>
       <Image style={styles.logo} source={require('../assets/logo.png')}></Image>
-      <Text style={styles.headerText}>Login</Text>
-      <TextInput
-        style={styles.input}
-        value={email}
-        onChangeText={text => setEmail(text)}
-        placeholder="Enter email"
-        keyboardType="email-address"
-      />
-      <TextInput
-        style={styles.input}
-        value={password}
-        onChangeText={text => setPassword(text)}
-        placeholder="Enter password"
-        secureTextEntry={true}
-      />
-      <View style={styles.container}>
-        <TouchableOpacity style={styles.button1} onPress={handlePress}>
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button2}
-          onPress={() => {
-            navigation.navigate('Signup');
-          }}>
-          <Text style={styles.buttonText}>Register</Text>
-        </TouchableOpacity>
-      </View>
+      <Formik
+        initialValues={{email: '', password: ''}}
+        onSubmit={handlePress}
+        validationSchema={validationSchema}>
+        {({handleChange, handleSubmit, handleBlur, errors, values}) => (
+          <>
+            <View style={styles.inputField}>
+              <MaterialIcons
+                name="mail-outline"
+                size={25}
+                color="black"
+                style={styles.iconStyle}
+              />
+              <TextInput
+                style={styles.input}
+                value={values.email}
+                onChangeText={handleChange('email')}
+                placeholder="Enter email"
+                keyboardType="email-address"
+                onBlur={handleBlur('email')}
+              />
+            </View>
+            <View style={styles.inputField}>
+              <MaterialIcons
+                name="lock"
+                size={25}
+                color="black"
+                style={styles.iconStyle}
+              />
+              <TextInput
+                style={styles.input}
+                value={values.password}
+                onChangeText={handleChange('password')}
+                placeholder="Enter password"
+                secureTextEntry={true}
+                onBlur={handleBlur('password')}
+              />
+            </View>
+            {Object.keys(errors).length > 0 && (
+              <Text style={styles.error}>{Object.values(errors)[0]}</Text>
+            )}
+            <View style={styles.container}>
+              <TouchableOpacity
+                style={styles.loginButton}
+                onPress={handleSubmit}>
+                <Text style={styles.buttonText}>Login</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.button2}
+                onPress={() => {
+                  navigation.navigate('Signup');
+                }}>
+                <Text style={styles.signUpBtnText}>Create a New Account?</Text>
+              </TouchableOpacity>
+            </View>
+          </>
+        )}
+      </Formik>
     </View>
   );
 };
@@ -63,17 +103,18 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'black',
   },
-  button1: {
+  loginButton: {
     height: 45,
-    backgroundColor: 'dodgerblue',
+    backgroundColor: 'black',
     borderRadius: 5,
     paddingHorizontal: 50,
+    marginTop: 10,
+    marginBottom: 5,
   },
   button2: {
-    height: 45,
-    backgroundColor: 'green',
     borderRadius: 5,
     paddingHorizontal: 50,
+    color: 'black',
   },
   buttonText: {
     fontSize: 20,
@@ -82,30 +123,27 @@ const styles = StyleSheet.create({
     flex: 1,
     color: 'white',
   },
-  container: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+  signUpBtnText: {
+    fontSize: 20,
+    color: 'black',
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    padding: 15,
+    textDecorationLine: 'underline',
   },
-  input: {
-    height: 50,
-    borderWidth: 1,
-    padding: 10,
-    borderRadius: 7,
-    borderColor: 'gray',
-    backgroundColor: 'white',
-    //textAlign: 'center',
+  container: {
+    width: '100%',
   },
   logo: {
     width: 150,
     height: 95,
     alignSelf: 'center',
+    marginBottom: 30,
   },
   mainContainer: {
-    // marginHorizontal: 20,
     paddingHorizontal: 20,
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#EFDCF9',
     rowGap: 20,
   },
   btnStyle: {
@@ -114,5 +152,32 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     margin: 8,
     paddingHorizontal: 20,
+  },
+  iconStyle: {padding: 10},
+  inputField: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    elevation: 5,
+    backgroundColor: colors.white,
+    borderRadius: 10,
+    borderColor: 'gray',
+  },
+  input: {
+    flex: 1,
+    paddingTop: 10,
+    paddingRight: 10,
+    paddingBottom: 10,
+    paddingLeft: 10,
+    height: 50,
+    backgroundColor: colors.white,
+    color: 'black',
+    fontSize: 15,
+  },
+  error: {
+    color: 'red',
+    marginBottom: 8,
+    fontSize: 15,
   },
 });
