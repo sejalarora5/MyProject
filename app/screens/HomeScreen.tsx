@@ -279,22 +279,3 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
 });
-
-// const [productsData, setProductsData] = useState();
-// const [isLoading, setIsLoading] = useState(true);
-
-// const getProductsData = async () => {
-//   try {
-//     const response = await fetch('https://fakestoreapi.com/products');
-//     const myData = await response.json();
-//     setProductsData(myData);
-//     setIsLoading(false);
-//     console.log(myData);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-
-// useEffect(() => {
-//   getProductsData();
-// }, []);

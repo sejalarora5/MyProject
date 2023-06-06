@@ -4,14 +4,10 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../App';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Search'>;
-const SearchScreen = ({route}) => {
-  const {item} = route.params;
-
+const SearchScreen = () => {
   return (
     <View style={styles.container}>
-      <Image source={{uri: item.image}} style={styles.productImage} />
-      <Text style={styles.title}>{item.title}</Text>
-      <Text style={styles.price}>Price: ${item.price}</Text>
+      <Text>gg</Text>
     </View>
   );
 };

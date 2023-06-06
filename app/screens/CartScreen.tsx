@@ -23,8 +23,10 @@ const CartScreen = ({navigation}: Props) => {
   const handleRemoveFromCart = (data: any) => {
     dispatch(removeItemFromCart(data));
   };
+  let totalItems = cart.length > 0 ? cart.length.toString() : null;
 
   const renderCartItem = ({item}) => {
+    const isItemInCart = cart.includes(item.id);
     return (
       <View style={styles.container}>
         <Image source={{uri: item.image}} style={styles.productImage} />
@@ -66,12 +68,18 @@ const CartScreen = ({navigation}: Props) => {
           </TouchableOpacity>
         </View>
       ) : (
-        <View>
+        <View style={styles.cartContainer}>
           <FlatList
             numColumns={1}
             data={cartProducts}
             renderItem={renderCartItem}
             keyExtractor={item => item.id.toString()}></FlatList>
+          <View>
+            <TouchableOpacity style={styles.totalContainer}>
+              <Text style={styles.totalPrice}> {totalItems} items | </Text>
+              <Text style={styles.totalPrice}>View Cart</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       )}
     </View>
@@ -87,6 +95,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  cartContainer: {flex: 1},
+  totalContainer: {
+    padding: 10,
+    flexDirection: 'row',
+    backgroundColor: 'pink',
+    marginTop: 10,
+    justifyContent: 'space-between',
+    marginBottom: 15,
+    position: 'absolute',
+    bottom: 10,
+    left: 10,
+    right: 10,
+    borderRadius: 10,
+  },
+  totalPrice: {fontSize: 20, color: 'black'},
   banner: {
     width: '95%',
     height: 220,
@@ -114,6 +137,7 @@ const styles = StyleSheet.create({
     elevation: 4,
     backgroundColor: '#fff',
     marginLeft: 10,
+    marginTop: 10,
     marginBottom: 20,
   },
   itemName: {

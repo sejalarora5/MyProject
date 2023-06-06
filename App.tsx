@@ -22,6 +22,7 @@ export type RootStackParamList = {
   Login: undefined;
   Signup: undefined;
   Home: undefined;
+  // Main: undefined;
   Search: {item: any};
   Splash: undefined;
   Settings: undefined;
@@ -60,10 +61,6 @@ function App(): JSX.Element {
             name="Search"
             component={SearchScreen}
             options={{
-              // tabBarIcon: () => (
-              //   // <Ionicons name="search" size={35} color="#FFB4AE" />
-              //   <Ionicons name="search" size={35} color="gray" />
-              // ),
               tabBarIcon: bar =>
                 bar.focused ? (
                   <Ionicons name="search" size={35} color="black" />
@@ -99,6 +96,7 @@ function App(): JSX.Element {
                 ) : (
                   <Ionicons name="home" size={35} color="gray" />
                 ),
+              headerShown: false,
             }}></Tab.Screen>
           <Tab.Screen
             name="Cart"
@@ -175,7 +173,7 @@ const HomeFunc = () => {
     <Stack.Navigator>
       <Stack.Screen
         name="Home"
-        options={{title: 'Home Screen', headerShown: false}}
+        options={{title: 'Home Screen'}}
         component={HomeScreen}></Stack.Screen>
       <Stack.Screen
         name="Product"

@@ -20,6 +20,8 @@ import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {setUserLoggedIn} from '../../redux/actions/loginActions';
 import {useDispatch} from 'react-redux';
 import colors from '../config/colors';
+import auth from '@react-native-firebase/auth';
+import GoogleSignInButton from '../components/GoogleSignInButton';
 type Props = NativeStackScreenProps<RootStackParamList, 'Signup'>;
 const countries = [
   {
@@ -56,7 +58,7 @@ const validationSchema = Yup.object().shape({
 });
 const SignUpScreen = ({navigation}: Props) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedId, setSelectedId] = useState();
+  // const [selectedId, setSelectedId] = useState();
   const [selectedItem, setSelectedItem] = useState('Select');
 
   const handleOpenModal = () => {
@@ -67,9 +69,25 @@ const SignUpScreen = ({navigation}: Props) => {
   };
 
   const dispatch = useDispatch();
-  const handlePress = () => {
-    navigation.navigate('Home');
-    dispatch(setUserLoggedIn());
+
+  const handlePress = async (values: any) => {
+    try {
+      await auth().createUserWithEmailAndPassword(
+        values.email,
+        values.password,
+      );
+      console.log('User account created & signed in!');
+      navigation.navigate('Home');
+      dispatch(setUserLoggedIn());
+    } catch (error) {
+      if (error === 'auth/email-already-in-use') {
+        console.log('That email address is already in use!');
+      } else if (error === 'auth/invalid-email') {
+        console.log('That email address is invalid!');
+      } else {
+        console.error(error);
+      }
+    }
   };
 
   const [selectedRadio, setSelectedRadio] = useState(0);
@@ -79,7 +97,7 @@ const SignUpScreen = ({navigation}: Props) => {
     <View style={styles.mainContainer}>
       <Image style={styles.logo} source={require('../assets/logo.png')}></Image>
       {/* <Text style={styles.headerText}>Register</Text> */}
-
+      {/* <GoogleSignInButton /> */}
       <Formik
         initialValues={{name: '', email: '', contact: '', password: ''}}
         onSubmit={handlePress}
