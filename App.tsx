@@ -16,6 +16,7 @@ import CartScreen from './app/screens/CartScreen';
 import {useSelector} from 'react-redux';
 import {AuthState} from './redux/reducers/authReducer';
 import ProductScreen from './app/screens/ProductScreen';
+import CheckoutScreen from './app/screens/CheckoutScreen';
 
 export type RootStackParamList = {
   First: undefined;
@@ -23,7 +24,7 @@ export type RootStackParamList = {
   Signup: undefined;
   Home: undefined;
   // Main: undefined;
-  Search: {item: any};
+  Language: undefined;
   Splash: undefined;
   Settings: undefined;
   Webview: undefined;
@@ -31,6 +32,7 @@ export type RootStackParamList = {
   Cart: undefined;
   Tab: undefined;
   Product: {item: any};
+  Checkout: {totalItems: number; totalPrice: number};
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -58,15 +60,24 @@ function App(): JSX.Element {
           }}
           initialRouteName="Home">
           <Tab.Screen
-            name="Search"
+            name="Language"
             component={SearchScreen}
             options={{
               tabBarIcon: bar =>
                 bar.focused ? (
-                  <Ionicons name="search" size={35} color="black" />
+                  <Ionicons
+                    name="reorder-four-outline"
+                    size={35}
+                    color="black"
+                  />
                 ) : (
-                  <Ionicons name="search" size={35} color="gray" />
+                  <Ionicons
+                    name="reorder-four-outline"
+                    size={35}
+                    color="gray"
+                  />
                 ),
+              headerShown: false,
             }}></Tab.Screen>
           <Tab.Screen
             name="Wishlist"
@@ -100,7 +111,7 @@ function App(): JSX.Element {
             }}></Tab.Screen>
           <Tab.Screen
             name="Cart"
-            component={CartScreen}
+            component={CartFunc}
             options={{
               title: 'Cart',
               tabBarLabel: '',
@@ -111,6 +122,7 @@ function App(): JSX.Element {
                 ) : (
                   <Ionicons name="cart" size={35} color="gray" />
                 ),
+              headerShown: false,
               tabBarBadge: cart.length > 0 ? cart.length.toString() : null,
             }}></Tab.Screen>
           <Tab.Screen
@@ -179,6 +191,20 @@ const HomeFunc = () => {
         name="Product"
         options={{title: 'Product Screen'}}
         component={ProductScreen}></Stack.Screen>
+    </Stack.Navigator>
+  );
+};
+const CartFunc = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Cart"
+        options={{title: 'Cart Screen'}}
+        component={CartScreen}></Stack.Screen>
+      <Stack.Screen
+        name="Checkout"
+        options={{title: 'Checkout Screen'}}
+        component={CheckoutScreen}></Stack.Screen>
     </Stack.Navigator>
   );
 };

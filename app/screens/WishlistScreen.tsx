@@ -13,6 +13,7 @@ import {addItemToCart} from '../../redux/actions/cartActions';
 import {removeItemFromWishlist} from '../../redux/actions/wishlistActions';
 import {RootStackParamList} from '../../App';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {t} from 'i18next';
 type Props = NativeStackScreenProps<RootStackParamList, 'Wishlist'>;
 const WishlistScreen = ({navigation}: Props) => {
   const dispatch = useDispatch();
@@ -53,7 +54,7 @@ const WishlistScreen = ({navigation}: Props) => {
                 handleAddToCart(item.id);
               }}>
               <Ionicons name="cart" color="black" size={24} />
-              <Text style={styles.removeItemText}>Add to cart</Text>
+              <Text style={styles.removeItemText}>{t('addtocart')}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -68,14 +69,12 @@ const WishlistScreen = ({navigation}: Props) => {
             style={styles.emptyWishlistImage}
             source={require('../assets/wish-list-icon.jpeg')}
           />
-          <Text style={styles.text1}>Your wishlist is empty!!</Text>
-          <Text style={styles.text2}>
-            Explore more and shortlist some items...
-          </Text>
+          <Text style={styles.text1}>{t('yourwishlistisempty')}</Text>
+          <Text style={styles.text2}>{t('exploremore')}</Text>
           <TouchableOpacity
             style={styles.exploreBtn}
             onPress={() => navigation.navigate('Home')}>
-            <Text style={styles.exploreText}>Explore</Text>
+            <Text style={styles.exploreText}>{t('explore')}</Text>
           </TouchableOpacity>
         </View>
       ) : (

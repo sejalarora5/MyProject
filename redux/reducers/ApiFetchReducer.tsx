@@ -1,4 +1,10 @@
 import {
+  ADD_TO_CART,
+  DECREASE_QUANTITY,
+  INCREASE_QUANTITY,
+  REMOVE_FROM_CART,
+} from '../actionTypes/cartActionTypes';
+import {
   FETCH_USERS_REQUEST,
   FETCH_USERS_SUCCESS,
   FETCH_USERS_FAILURE,
@@ -37,6 +43,67 @@ export const reducer = (state = initialState, action: any) => {
         products: [],
         error: action.payload,
       };
+    case ADD_TO_CART: {
+      const updatedItems = state.products.map(item => {
+        if (item.id === action.payload) {
+          return {
+            ...item,
+            quantity: 1,
+          };
+        }
+        return item;
+      });
+      return {
+        ...state,
+        products: updatedItems,
+      };
+    }
+    case REMOVE_FROM_CART: {
+      const updatedItems = state.products.map(item => {
+        if (item.id === action.payload) {
+          return {
+            ...item,
+            quantity: 0,
+          };
+        }
+        return item;
+      });
+      return {
+        ...state,
+        products: updatedItems,
+      };
+    }
+    case INCREASE_QUANTITY: {
+      const updatedItems = state.products.map(item => {
+        if (item.id === action.payload) {
+          return {
+            ...item,
+            quantity: item.quantity + 1,
+          };
+        }
+        return item;
+      });
+      return {
+        ...state,
+        products: updatedItems,
+      };
+    }
+
+    case DECREASE_QUANTITY: {
+      const updatedItems = state.products.map(item => {
+        if (item.id === action.payload && item.quantity > 1) {
+          return {
+            ...item,
+            quantity: item.quantity - 1,
+          };
+        }
+        return item;
+      });
+      return {
+        ...state,
+        products: updatedItems,
+      };
+    }
     default:
       return state;
   }

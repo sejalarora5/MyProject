@@ -22,6 +22,7 @@ import {
   GoogleSigninButton,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
+import {t} from 'i18next';
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
 const validationSchema = Yup.object().shape({
@@ -85,12 +86,12 @@ const LoginScreen = ({navigation}: Props) => {
     <View style={styles.mainContainer}>
       <Image style={styles.logo} source={require('../assets/logo.png')}></Image>
       {/* <GoogleSignInButton onPress={handleGoogleSignIn} /> */}
-      <GoogleSigninButton
+      {/* <GoogleSigninButton
         size={GoogleSigninButton.Size.Wide}
         color={GoogleSigninButton.Color.Light}
         onPress={handleGoogleSignIn}
         // disabled={this.state.isSigninInProgress}
-      />
+      /> */}
       <Formik
         initialValues={{email: '', password: ''}}
         onSubmit={handlePress}
@@ -111,6 +112,7 @@ const LoginScreen = ({navigation}: Props) => {
                 placeholder="Enter email"
                 keyboardType="email-address"
                 onBlur={handleBlur('email')}
+                autoCapitalize="none"
               />
             </View>
             <View style={styles.inputField}>
@@ -136,14 +138,14 @@ const LoginScreen = ({navigation}: Props) => {
               <TouchableOpacity
                 style={styles.loginButton}
                 onPress={handleSubmit}>
-                <Text style={styles.buttonText}>Login</Text>
+                <Text style={styles.buttonText}>{t('login')}</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.button2}
                 onPress={() => {
                   navigation.navigate('Signup');
                 }}>
-                <Text style={styles.signUpBtnText}>Create a New Account?</Text>
+                <Text style={styles.signUpBtnText}>{t('Createnewacc')}</Text>
               </TouchableOpacity>
             </View>
           </>

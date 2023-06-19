@@ -1,6 +1,7 @@
 import {
   ActivityIndicator,
   FlatList,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -23,6 +24,8 @@ import {RootState} from '../../redux/store/configureStore';
 import {initState} from '../../redux/reducers/ApiFetchReducer';
 import {addItemToCart} from '../../redux/actions/cartActions';
 import {addItemToWishlist} from '../../redux/actions/wishlistActions';
+import {t} from 'i18next';
+import colors from '../config/colors';
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 type Product = {
@@ -68,7 +71,11 @@ const HomeScreen = ({navigation}: Props) => {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [showBanner, setShowBanner] = useState<'flex' | 'none'>('flex');
   const handleSearch = (query: string) => {
+    if (query.length > 0) {
+      setShowBanner('none');
+    } else setShowBanner('flex');
     setSearchQuery(query);
     const filtered = products.filter(item =>
       item.title.toLowerCase().includes(query.toLowerCase()),
@@ -94,7 +101,7 @@ const HomeScreen = ({navigation}: Props) => {
   };
   const renderProductsItem = ({item}: {item: Product}) => {
     const isItemInWishlist = wishlist.includes(item.id);
-    const isItemInCart = cart.includes(item.id);
+    const isItemInCart = cart.some(data => data.id === item.id);
     const handleProductPress = (item: Product) => {
       navigation.navigate('Product', {item});
     };
@@ -102,37 +109,54 @@ const HomeScreen = ({navigation}: Props) => {
       <TouchableOpacity
         style={styles.container}
         onPress={() => handleProductPress(item)}>
-        <View>
-          <Image source={{uri: item.image}} style={styles.productImage} />
-          <TouchableOpacity
-            style={styles.addToWishlistBtn}
-            onPress={() => {
-              handleAddToWishlist(item.id);
+        {/* <View> */}
+        {/* <View
+            style={{
+              backgroundColor: colors.white,
+              position: 'absolute',
+              top: 10,
+              // right: 10,
+              height: 40,
+              width: 60,
+              justifyContent: 'center',
+              alignItems: 'center',
             }}>
-            <Ionicons
-              name={isItemInWishlist ? 'heart' : 'heart-outline'}
-              color={isItemInWishlist ? 'red' : 'black'}
-              size={30}></Ionicons>
-          </TouchableOpacity>
+            <Text style={styles.priceText1}>$ {item.price}</Text>
+          </View> */}
+        <Image source={{uri: item.image}} style={styles.productImage} />
+
+        <TouchableOpacity
+          style={styles.addToWishlistBtn}
+          onPress={() => {
+            handleAddToWishlist(item.id);
+          }}>
+          <Ionicons
+            name={isItemInWishlist ? 'heart' : 'heart-outline'}
+            color={isItemInWishlist ? 'red' : 'black'}
+            size={30}></Ionicons>
+        </TouchableOpacity>
+
+        <View>
           <View>
             <Text numberOfLines={2} style={styles.itemName}>
               {item.title}
             </Text>
-            <View style={styles.infoContainer}>
-              <Text style={styles.priceText}>$ {item.price}</Text>
-              <TouchableOpacity
-                style={styles.cartBtnContainer}
-                onPress={() => {
-                  handleAddToCart(item.id);
-                }}>
-                <Ionicons name="cart" color="black" size={22} />
-                <Text style={styles.addToCartText}>
-                  {isItemInCart ? 'Remove Item' : 'Add to Cart'}
-                </Text>
-              </TouchableOpacity>
-            </View>
           </View>
         </View>
+        <View style={styles.infoContainer}>
+          <Text style={styles.priceText}>$ {item.price.toFixed(1)}</Text>
+          <TouchableOpacity
+            style={styles.cartBtnContainer}
+            onPress={() => {
+              handleAddToCart(item);
+            }}>
+            <Ionicons name="cart" color="black" size={27} />
+            {/* <Text style={styles.addToCartText}>
+              {isItemInCart ? 'REMOVE' : 'ADD'}
+            </Text> */}
+          </TouchableOpacity>
+        </View>
+        {/* </View> */}
       </TouchableOpacity>
     );
   };
@@ -146,16 +170,7 @@ const HomeScreen = ({navigation}: Props) => {
           style={styles.searchInput}
           placeholder="Search for a product..."
           value={searchQuery}
-          onChangeText={handleSearch}
-        />
-      </View>
-      <View style={{height: 250}}>
-        <FlatList
-          data={FlatListImages}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          renderItem={renderBannerImages}
-          keyExtractor={item => item.toString()}
+          onChangeText={text => handleSearch(text)}
         />
       </View>
 
@@ -164,7 +179,16 @@ const HomeScreen = ({navigation}: Props) => {
           <ActivityIndicator size="large" color="#0000ff" />
         </View>
       ) : (
-        <View>
+        <ScrollView>
+          <View style={{height: 250, display: showBanner}}>
+            <FlatList
+              data={FlatListImages}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              renderItem={renderBannerImages}
+              keyExtractor={item => item.toString()}
+            />
+          </View>
           <FlatList
             numColumns={2}
             // data={selector.products}
@@ -173,7 +197,7 @@ const HomeScreen = ({navigation}: Props) => {
             renderItem={renderProductsItem}
             keyExtractor={item => item.id.toString()}
           />
-        </View>
+        </ScrollView>
       )}
     </View>
   );
@@ -182,7 +206,13 @@ const HomeScreen = ({navigation}: Props) => {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-  mainContainer: {flex: 1, backgroundColor: 'pink', paddingBottom: 38},
+  mainContainer: {
+    flex: 1,
+    backgroundColor: 'pink',
+    paddingBottom: 5,
+    paddingLeft: 5,
+    paddingRight: 5,
+  },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -190,7 +220,7 @@ const styles = StyleSheet.create({
     padding: 8,
     borderRadius: 30,
     margin: 10,
-    marginBottom: 0,
+    // marginBottom: 10,
   },
   searchInput: {
     flex: 1,
@@ -215,6 +245,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignSelf: 'center',
     margin: 10,
+    marginTop: 0,
   },
   productImage: {
     height: '55%',
@@ -222,41 +253,53 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 10,
     resizeMode: 'contain',
     borderTopRightRadius: 10,
+    // padding: 10,
+    marginTop: 8,
   },
   container: {
-    height: 250,
+    height: 260,
     width: '48%',
     borderRadius: 10,
     elevation: 4,
     backgroundColor: '#fff',
     marginLeft: 10,
+    position: 'relative',
     marginBottom: 20,
   },
   itemName: {
-    fontSize: 15,
+    fontSize: 17,
     fontWeight: '600',
     marginLeft: 10,
     marginTop: 10,
   },
   infoContainer: {
+    position: 'absolute',
+    bottom: 10,
+    left: 2,
+    right: 4,
+    // backgroundColor: 'blue',
+    width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingLeft: 8,
     paddingRight: 5,
-    marginTop: 5,
+    // marginTop: 15,
     alignItems: 'center',
   },
   cartBtnContainer: {
-    borderWidth: 1,
-    borderRadius: 10,
-    paddingLeft: 5,
-    paddingRight: 5,
-    // margin: 5,
-    width: 120,
-    paddingBottom: 7,
-    paddingTop: 7,
+    // borderWidth: 1,
+    // borderRadius: 20,
+    // paddingLeft: 3,
+    // paddingRight: 3,
+    margin: 3,
+    marginRight: 10,
+    width: '20%',
+    // paddingBottom: 7,
+    // paddingTop: 7,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    // backgroundColor: 'pink',
   },
   addToWishlistBtn: {
     position: 'absolute',
@@ -272,10 +315,17 @@ const styles = StyleSheet.create({
   },
   addToCartText: {
     fontSize: 15,
-    fontWeight: '600',
+    fontWeight: 'bold',
   },
   priceText: {
-    fontSize: 15,
-    fontWeight: '600',
+    fontSize: 17,
+    fontWeight: 'bold',
   },
+  // priceText1: {
+  //   fontSize: 15,
+  //   fontWeight: '600',
+  //   position: 'relative',
+  //   left: 10,
+  //   top: 10,
+  // },
 });

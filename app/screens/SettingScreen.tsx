@@ -10,6 +10,7 @@ import auth from '@react-native-firebase/auth';
 import {Image} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import colors from '../config/colors';
+import {t} from 'i18next';
 let name = '';
 const SettingScreen = ({navigation}: Props) => {
   const dispatch = useDispatch();
@@ -29,8 +30,8 @@ const SettingScreen = ({navigation}: Props) => {
           alignItems: 'center',
           flexDirection: 'row',
         }}>
-        <Text style={{fontWeight: '600', fontSize: 18, marginLeft: 15}}>
-          Profile
+        <Text style={{fontWeight: '600', fontSize: 25, marginLeft: 15}}>
+          {t('profile')}
         </Text>
         <TouchableOpacity
           style={{
@@ -40,7 +41,7 @@ const SettingScreen = ({navigation}: Props) => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Ionicons name="settings" size={25} color="black"></Ionicons>
+          <Ionicons name="settings" size={30} color="black"></Ionicons>
         </TouchableOpacity>
       </View>
       {/* <TouchableOpacity
@@ -53,54 +54,74 @@ const SettingScreen = ({navigation}: Props) => {
 
       <Image
         source={require('../assets/user.png')}
-        style={{width: 80, height: 80, alignSelf: 'center', marginTop: 30}}
+        style={{
+          width: 100,
+          height: 100,
+          alignSelf: 'center',
+          marginTop: 30,
+        }}
       />
-      <Text style={{alignSelf: 'center', marginTop: 20, fontSize: 18}}>
+      <Text
+        style={{
+          alignSelf: 'center',
+          marginTop: 20,
+          fontSize: 18,
+          marginBottom: 20,
+        }}>
         Sejal
       </Text>
-      <TouchableOpacity
-        style={{
-          width: '90%',
-          height: 50,
-          borderBottomWidth: 0.23,
-          marginTop: 23,
-          borderBottomColor: '#8e8e8e',
-          justifyContent: 'center',
-          alignSelf: 'center',
-        }}>
-        <Text style={{fontSize: 20}}>My Address</Text>
+      <TouchableOpacity style={styles.listItems}>
+        <Ionicons
+          name="home-sharp"
+          size={22}
+          color="black"
+          style={styles.iconStyle}
+        />
+        <Text style={styles.listItemsText}>My Address</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.listItems}>
+        <Ionicons
+          name="home-sharp"
+          size={22}
+          color="black"
+          style={styles.iconStyle}
+        />
+        <Text style={styles.listItemsText}>My Offers</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.listItems}>
+        <Ionicons
+          name="bookmark"
+          size={22}
+          color="black"
+          style={styles.iconStyle}
+        />
+        <Text style={styles.listItemsText}>My Coupons</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.listItems}>
+        <Ionicons
+          name="log-out-outline"
+          size={22}
+          color="black"
+          style={styles.iconStyle}
+        />
+        <Text style={styles.listItemsText}>Orders</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={{
-          width: '90%',
-          height: 50,
-          borderBottomWidth: 0.23,
-          borderBottomColor: '#8e8e8e',
-          justifyContent: 'center',
-          alignSelf: 'center',
-        }}>
-        <Text style={{fontSize: 20}}>My Offers</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={{
-          width: '90%',
-          height: 50,
-          borderBottomWidth: 0.23,
-          borderBottomColor: '#8e8e8e',
-          justifyContent: 'center',
-          alignSelf: 'center',
-        }}>
-        <Text style={{fontSize: 20}}>Orders</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.logoutBtn}
+        style={styles.listItems}
         onPress={() => {
           auth()
             .signOut()
             .then(() => dispatch(setUserLoggedOut()));
         }}>
-        <Ionicons name="log-out-outline" size={22} color="black"></Ionicons>
+        <Ionicons
+          name="log-out-outline"
+          size={22}
+          color="black"
+          style={styles.iconStyle}
+        />
+        <Text style={styles.listItemsText}>Logout</Text>
       </TouchableOpacity>
+      {/* <TouchableOpacity style={styles.logoutBtn}></TouchableOpacity> */}
     </View>
   );
 };
@@ -120,5 +141,20 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
     flex: 1,
     color: 'white',
+  },
+  listItems: {
+    width: '90%',
+    height: 50,
+    borderBottomWidth: 0.23,
+    flexDirection: 'row',
+    marginTop: 23,
+    borderBottomColor: '#8e8e8e',
+    justifyContent: 'flex-start',
+    // alignSelf: 'center',
+    marginLeft: 30,
+  },
+  listItemsText: {fontSize: 20},
+  iconStyle: {
+    marginRight: 30,
   },
 });

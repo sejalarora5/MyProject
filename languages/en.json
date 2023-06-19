@@ -1,0 +1,27 @@
+{
+    "translation": {
+        "english": "English",
+        "hindi": "Hindi",
+        "french": "French",
+        "weprovidewhatyouneed": "we provide what you need...",
+        "login": "Login",
+        "register": "Register",
+        "gender": "Gender",
+        "male": "Male",
+        "female": "Female",
+        "Createnewacc": "Create a New Account",
+        "Alreadyhaveanacc" : "Already have an Account?",
+        "signup": "Sign Up",
+        "select": "Select",
+        "searchforaproduct": "Search for a product",
+        "yourwishlistisempty": "Your wishlist is empty!!",
+        "exploremore": "Explore more and shortlist some items...",
+        "yourcartisempty" : "Your cart is empty!!",
+        "explore": "Explore",
+        "profile": "Profile",
+        "address": "Address",
+        "addtocart":"Add to Cart",
+        "removeitem": "Remove item",
+        "wishlist": "WISHLIST"
+    }
+}

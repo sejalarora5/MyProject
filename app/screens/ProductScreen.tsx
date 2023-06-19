@@ -17,6 +17,7 @@ import {
   decreaseQuantity,
   increaseQuantity,
 } from '../../redux/actions/cartActions';
+import {t} from 'i18next';
 type Props = NativeStackScreenProps<RootStackParamList, 'Product'>;
 const ProductScreen = ({route}: Props) => {
   const {item} = route.params;
@@ -70,7 +71,7 @@ const ProductScreen = ({route}: Props) => {
               handleAddToWishlist(item.id);
             }}>
             <Ionicons name="heart-outline" size={25} color="black"></Ionicons>
-            <Text style={styles.wishlistButtonText}>WISHLIST</Text>
+            <Text style={styles.wishlistButtonText}>{t('wishlist')}</Text>
           </TouchableOpacity>
           {isItemInCart ? (
             <TouchableOpacity
@@ -93,7 +94,7 @@ const ProductScreen = ({route}: Props) => {
                 handleAddToCart(item.id);
               }}>
               <Ionicons name="cart" size={25} color="white"></Ionicons>
-              <Text style={styles.cartButtonText}>ADD TO CART</Text>
+              <Text style={styles.cartButtonText}>{t('addtocart')}</Text>
             </TouchableOpacity>
           )}
         </View>
@@ -152,6 +153,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     width: 150,
+    justifyContent: 'space-evenly',
   },
   wishlistButtonText: {
     fontSize: 17,
@@ -163,7 +165,6 @@ const styles = StyleSheet.create({
     padding: 10,
     width: 150,
     borderWidth: 1,
-    justifyContent: 'space-evenly',
     borderRadius: 5,
     borderColor: 'transparent',
   },

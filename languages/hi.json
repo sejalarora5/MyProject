@@ -1,0 +1,27 @@
+{
+    "translation": {
+        "english": "अंग्रेज़ी",
+        "hindi": "हिंदी",
+        "french": "फ्रेंच",
+        "weprovidewhatyouneed": "हम आपको वह प्रदान करते हैं जिसकी आपको आवश्यकता है...",
+        "login": "लॉग इन करें",
+        "register": "साइन अप करें",
+        "gender": "लिंग",
+        "male": "पुस्र्ष",
+        "female": "महिला",
+        "Createnewacc": "एक नया खाता बनाएँ",
+        "Alreadyhaveanacc" : "क्या आपके पास पहले से एक खाता मौजूद है?",
+        "signup": "साइन अप करें",
+        "select": "चयन करें",
+        "searchforaproduct": "उत्पाद खोजें",
+        "yourwishlistisempty": "आपकी इच्छा सूची खाली है!!",
+        "exploremore": "अधिक अन्वेषण करें और कुछ वस्तुओं को शॉर्टलिस्ट करें...",
+        "yourcartisempty" : "आपकी गाड़ी खाली है!!",
+        "explore": "अन्वेषण करना",
+        "profile": "प्रोफ़ाइल",
+        "address": "पता",
+        "addtocart":"कार्ट में जोड़ें",
+        "removeitem": "वस्तु निकालें",
+        "wishlist": "इच्छा-सूची"
+    }
+}

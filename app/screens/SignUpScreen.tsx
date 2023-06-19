@@ -22,6 +22,7 @@ import {useDispatch} from 'react-redux';
 import colors from '../config/colors';
 import auth from '@react-native-firebase/auth';
 import GoogleSignInButton from '../components/GoogleSignInButton';
+import {t} from 'i18next';
 type Props = NativeStackScreenProps<RootStackParamList, 'Signup'>;
 const countries = [
   {
@@ -132,7 +133,7 @@ const SignUpScreen = ({navigation}: Props) => {
               secureTextEntry={true}
             />
             <View style={styles.radioContainer}>
-              <Text style={styles.genderText}>Gender: </Text>
+              <Text style={styles.genderText}>{t('gender')}: </Text>
               <TouchableOpacity onPress={() => setSelectedRadio(1)}>
                 <View style={styles.radioWrapper}>
                   <View style={styles.radio}>
@@ -140,7 +141,7 @@ const SignUpScreen = ({navigation}: Props) => {
                       <View style={styles.radioBg}></View>
                     ) : null}
                   </View>
-                  <Text style={styles.radioText}>Male</Text>
+                  <Text style={styles.radioText}>{t('male')}</Text>
                 </View>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => setSelectedRadio(2)}>
@@ -150,7 +151,7 @@ const SignUpScreen = ({navigation}: Props) => {
                       <View style={styles.radioBg}></View>
                     ) : null}
                   </View>
-                  <Text style={styles.radioText}>Female</Text>
+                  <Text style={styles.radioText}>{t('female')}</Text>
                 </View>
               </TouchableOpacity>
             </View>
@@ -192,7 +193,7 @@ const SignUpScreen = ({navigation}: Props) => {
 
             <View style={styles.container}>
               <TouchableOpacity style={styles.signupBtn} onPress={handleSubmit}>
-                <Text style={styles.buttonText}>Sign Up</Text>
+                <Text style={styles.buttonText}>{t('signup')}</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.loginBtn}
@@ -200,7 +201,7 @@ const SignUpScreen = ({navigation}: Props) => {
                   navigation.navigate('Login');
                 }}>
                 <Text style={styles.signUpBtnText}>
-                  Already have an Account?
+                  {t('Alreadyhaveanacc')}
                 </Text>
               </TouchableOpacity>
             </View>

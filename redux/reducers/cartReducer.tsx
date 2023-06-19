@@ -14,81 +14,50 @@ const initialState = {
 export const cartReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_TO_CART:
-      if (!state.cart.includes(action.payload)) {
+      if (!state.cart.some(data => data.id === action.payload.id)) {
         return {
-          // ...state,
-          cart: [...state.cart, action.payload],
+          ...state,
+          cart: [...state.cart, {...action.payload, quantity: 1}],
         };
       }
+      return state;
     case REMOVE_FROM_CART:
       return {
         ...state,
-        cart: state.cart.filter(data => data !== action.payload),
+        cart: state.cart.filter(data => data.id !== action.payload.id),
       };
+    case INCREASE_QUANTITY: {
+      const updatedItems = state.cart.map(item => {
+        if (item.id === action.payload.id) {
+          return {
+            ...item,
+            quantity: item.quantity + 1,
+          };
+        }
+        return item;
+      });
+      return {
+        ...state,
+        cart: updatedItems,
+      };
+    }
 
-    // case INCREASE_QUANTITY:
-
-    // let updatedProduct = state.cart.map(currElement => {
-    //   if (currElement.id === action.payload) {
-    //     let decAmount = currElement.amount + 1;
-
-    //     if (decAmount <= 1) {
-    //       decAmount = 1;
-    //     }
-    //     return {
-    //       ...currElement,
-    //       amount: decAmount,
-    //     };
-    //   } else {
-    //     return currElement;
-    //   }
-    // });
-
+    case DECREASE_QUANTITY: {
+      const updatedItems = state.cart.map(item => {
+        if (item.id === action.payload.id && item.quantity > 1) {
+          return {
+            ...item,
+            quantity: item.quantity - 1,
+          };
+        }
+        return item;
+      });
+      return {
+        ...state,
+        cart: updatedItems,
+      };
+    }
     default:
       return state;
   }
 };
-
-// const initialState = {
-//   cart: [],
-// };
-
-// const cartReducer = (state = initialState, action) => {
-//   switch (action.type) {
-//     case ADD_TO_CART:
-//       // Add the new item to the cart
-//       return {
-//         ...state,
-//         cart: action.payload,
-//       };
-
-//     case REMOVE_FROM_CART:
-//       return {
-//         ...state,
-//         cart: action.payload,
-//       };
-
-//     case INCREASE_QUANTITY:
-//       return {
-//         ...state,
-//         cart: action.payload,
-//       };
-//     case DECREASE_QUANTITY:
-//       return {
-//         ...state,
-//         cart: action.payload,
-//       };
-
-//     // case CLEAR_CART:
-//     //   // Clear all items from the cart
-//     //   return {
-//     //     ...state,
-//     //     items: [],
-//     //   };
-
-//     default:
-//       return state;
-//   }
-// };
-
-// export default cartReducer;
