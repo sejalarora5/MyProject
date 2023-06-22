@@ -26,6 +26,7 @@ const WishlistScreen = ({navigation}: Props) => {
 
   const handleAddToCart = (data: any) => {
     dispatch(addItemToCart(data));
+    console.log(data);
   };
   const handleRemoveFromWishlist = (data: any) => {
     dispatch(removeItemFromWishlist(data));
@@ -93,7 +94,7 @@ const WishlistScreen = ({navigation}: Props) => {
 export default WishlistScreen;
 
 const styles = StyleSheet.create({
-  mainContainer: {flex: 1, backgroundColor: 'white'},
+  mainContainer: {flex: 1, backgroundColor: 'white', padding: 5},
   emptyWishlistContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -103,10 +104,17 @@ const styles = StyleSheet.create({
     height: 270,
     width: '95%',
     borderRadius: 10,
-    elevation: 4,
-    backgroundColor: '#fff',
+    elevation: 10,
+    backgroundColor: 'white',
     marginLeft: 10,
     marginBottom: 20,
+    padding: 5,
+    marginTop: 10,
+    // borderWidth: 0.5,
+    shadowColor: 'gray',
+    shadowOffset: {width: 2, height: 2},
+    shadowOpacity: 1,
+    shadowRadius: 10,
   },
   infoContainer: {
     flexDirection: 'row',

@@ -12,11 +12,7 @@ import {RootStackParamList} from '../../App';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {addItemToWishlist} from '../../redux/actions/wishlistActions';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-  addItemToCart,
-  decreaseQuantity,
-  increaseQuantity,
-} from '../../redux/actions/cartActions';
+import {addItemToCart} from '../../redux/actions/cartActions';
 import {t} from 'i18next';
 type Props = NativeStackScreenProps<RootStackParamList, 'Product'>;
 const ProductScreen = ({route}: Props) => {
@@ -30,20 +26,7 @@ const ProductScreen = ({route}: Props) => {
   };
 
   const cart = useSelector(state => state.cart.cart);
-  const isItemInCart = cart.includes(item.id);
-  //newly added
-  const handleIncreaseQuantity = data => {
-    dispatch(increaseQuantity(data));
-  };
-
-  // const handleDecreaseQuantity = data => {
-  //   dispatch(decreaseQuantity(data));
-  // };
-  // const products = useSelector(state => state.products.products);
-  // const cartProducts = products.filter(product =>
-  //   cart.some(item => item.id === product.id),
-  // );
-  const cartItem = cart.find(cartItem => cartItem.id === item.id);
+  const isItemInCart = cart.some(data => data.id === item.id);
 
   return (
     <View style={styles.container}>
@@ -54,14 +37,6 @@ const ProductScreen = ({route}: Props) => {
       <View style={styles.contentContainer}>
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.price}>${item.price}</Text>
-        {/* <Text>Quantity: {cartItem.quantity}</Text> */}
-        {/* <TouchableOpacity onPress={() => handleIncreaseQuantity(item.id)}>
-          <Ionicons name="add-outline" size={20} />
-        </TouchableOpacity> */}
-        {/*
-        <TouchableOpacity onPress={() => handleDecreaseQuantity(item.id)}>
-          <Ionicons name="remove-outline" size={20} />
-        </TouchableOpacity> */}
       </View>
       <View style={styles.buttonView}>
         <View style={styles.btnContainer}>
@@ -70,33 +45,18 @@ const ProductScreen = ({route}: Props) => {
             onPress={() => {
               handleAddToWishlist(item.id);
             }}>
-            <Ionicons name="heart-outline" size={25} color="black"></Ionicons>
+            <Ionicons name="heart-outline" size={25} color="black" />
             <Text style={styles.wishlistButtonText}>{t('wishlist')}</Text>
           </TouchableOpacity>
-          {isItemInCart ? (
-            <TouchableOpacity
-              style={styles.cartbuttonContainer}
-              onPress={() => {
-                handleAddToCart(item.id);
-              }}>
-              <TouchableOpacity>
-                <Text style={styles.cartButtonText}>-</Text>
-              </TouchableOpacity>
-              <Text style={styles.cartButtonText}>2</Text>
-              <TouchableOpacity>
-                <Text style={styles.cartButtonText}>+</Text>
-              </TouchableOpacity>
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity
-              style={styles.cartbuttonContainer}
-              onPress={() => {
-                handleAddToCart(item.id);
-              }}>
-              <Ionicons name="cart" size={25} color="white"></Ionicons>
-              <Text style={styles.cartButtonText}>{t('addtocart')}</Text>
-            </TouchableOpacity>
-          )}
+
+          <TouchableOpacity
+            style={styles.cartbuttonContainer}
+            onPress={() => {
+              handleAddToCart(item);
+            }}>
+            <Ionicons name="cart" size={25} color="white"></Ionicons>
+            <Text style={styles.cartButtonText}>{t('addtocart')}</Text>
+          </TouchableOpacity>
         </View>
         <View style={{backgroundColor: 'grey', height: 1}} />
         <View style={styles.contentContainer}>

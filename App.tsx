@@ -156,25 +156,25 @@ function App(): JSX.Element {
           />
           <Stack.Screen
             name="First"
-            options={{title: 'Landing Screen', headerShown: false}}
+            options={{title: 'Landing', headerShown: false}}
             component={LandingScreen}
           />
           <Stack.Screen
             name="Login"
-            options={{title: 'Login Screen'}}
+            options={{title: 'Login'}}
             component={LoginScreen}
           />
 
           <Stack.Screen
             name="Signup"
-            options={{title: 'SignUp Screen'}}
+            options={{title: 'SignUp'}}
             component={SignUpScreen}
           />
         </Stack.Navigator>
       )}
       <Stack.Screen
         name="Webview"
-        options={{title: 'Webview Screen'}}
+        options={{title: 'Webview'}}
         component={WebViewScreen}
       />
     </NavigationContainer>
@@ -185,12 +185,14 @@ const HomeFunc = () => {
     <Stack.Navigator>
       <Stack.Screen
         name="Home"
-        options={{title: 'Home Screen'}}
-        component={HomeScreen}></Stack.Screen>
+        options={{title: 'Home'}}
+        component={HomeScreen}
+      />
       <Stack.Screen
         name="Product"
-        options={{title: 'Product Screen'}}
-        component={ProductScreen}></Stack.Screen>
+        options={{title: 'Product'}}
+        component={ProductScreen}
+      />
     </Stack.Navigator>
   );
 };
@@ -199,12 +201,14 @@ const CartFunc = () => {
     <Stack.Navigator>
       <Stack.Screen
         name="Cart"
-        options={{title: 'Cart Screen'}}
-        component={CartScreen}></Stack.Screen>
+        options={{title: 'Cart'}}
+        component={CartScreen}
+      />
       <Stack.Screen
         name="Checkout"
-        options={{title: 'Checkout Screen'}}
-        component={CheckoutScreen}></Stack.Screen>
+        options={{title: 'Checkout'}}
+        component={CheckoutScreen}
+      />
     </Stack.Navigator>
   );
 };

@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import React from 'react';
-import RazorpayCheckout from 'react-native-razorpay';
+// import RazorpayCheckout from 'react-native-razorpay';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useDispatch, useSelector} from 'react-redux';
 import {
@@ -23,7 +23,7 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Cart'>;
 const CartScreen = ({navigation}: Props) => {
   const dispatch = useDispatch();
   const cart = useSelector(state => state.cart.cart);
-  const products = useSelector(state => state.products.products);
+  // const products = useSelector(state => state.products.products);
 
   // const cartProducts = products.filter(product => cart.includes(product.id));
   // const cartProducts = products.filter(product => cart.includes(product.id));
@@ -51,7 +51,7 @@ const CartScreen = ({navigation}: Props) => {
   };
 
   const renderCartItem = ({item}) => {
-    // const isItemInCart = cart.includes(item.id);
+    // const isItemInCart = cart.includes(item);
     return (
       <View style={styles.container}>
         <Image source={{uri: item.image}} style={styles.productImage} />
@@ -109,7 +109,7 @@ const CartScreen = ({navigation}: Props) => {
             </TouchableOpacity>
           </View>
           <View style={styles.priceContainer}>
-            <Text style={styles.itemPrice}>$ {item.price.toFixed(1)}</Text>
+            <Text style={styles.itemPrice}>$ {item.price}</Text>
           </View>
         </View>
       </View>
@@ -245,6 +245,10 @@ const styles = StyleSheet.create({
     // borderColor: 'grey',
     // borderWidth: 0.5,
     padding: 5,
+    shadowColor: 'gray',
+    shadowOffset: {width: 2, height: 2},
+    shadowOpacity: 1,
+    shadowRadius: 10,
   },
   priceContainer: {
     margin: 2,
@@ -265,7 +269,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 10,
     left: 0,
-    // backgroundColor: 'blue',
     width: '100%',
   },
   itemPrice: {

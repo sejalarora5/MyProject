@@ -264,21 +264,22 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 5,
     elevation: 7,
+    justifyContent: 'center',
   },
   buttonText: {
     fontSize: 20,
     textAlign: 'center',
-    textAlignVertical: 'center',
-    flex: 1,
     color: 'white',
   },
   countryFieldText: {
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
-    textAlignVertical: 'center',
-    flex: 1,
-    color: 'black',
+    // textAlignVertical: 'center',
+    // flex: 1,
+    color: 'grey',
+    padding: 0,
+    margin: 0,
   },
   signUpBtnText: {
     fontSize: 20,
@@ -295,6 +296,12 @@ const styles = StyleSheet.create({
     color: 'black',
     borderRadius: 5,
     paddingHorizontal: 50,
+    paddingTop: 11,
+    margin: 0,
+    borderBottomColor: 'black',
+    borderTopWidth: 0.5,
+    borderLeftWidth: 0.5,
+    borderRightWidth: 0.5,
   },
   loginBtn: {
     borderRadius: 5,
@@ -353,8 +360,8 @@ const styles = StyleSheet.create({
     padding: 20,
     margin: 20,
     width: '60%',
-    height: 300,
-    marginTop: 180,
+    height: 260,
+    marginTop: 300,
     marginLeft: 80,
   },
   heading: {
@@ -382,7 +389,7 @@ const styles = StyleSheet.create({
 
 const myItemSeparator = () => {
   return (
-    <View style={{height: 1, backgroundColor: 'grey', marginHorizontal: 10}} />
+    <View style={{height: 1, backgroundColor: 'white', marginHorizontal: 10}} />
   );
 };
 const myHeaderComponent = () => {

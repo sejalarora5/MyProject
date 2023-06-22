@@ -109,20 +109,6 @@ const HomeScreen = ({navigation}: Props) => {
       <TouchableOpacity
         style={styles.container}
         onPress={() => handleProductPress(item)}>
-        {/* <View> */}
-        {/* <View
-            style={{
-              backgroundColor: colors.white,
-              position: 'absolute',
-              top: 10,
-              // right: 10,
-              height: 40,
-              width: 60,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <Text style={styles.priceText1}>$ {item.price}</Text>
-          </View> */}
         <Image source={{uri: item.image}} style={styles.productImage} />
 
         <TouchableOpacity
@@ -150,7 +136,11 @@ const HomeScreen = ({navigation}: Props) => {
             onPress={() => {
               handleAddToCart(item);
             }}>
-            <Ionicons name="cart" color="black" size={27} />
+            <Ionicons
+              name="cart"
+              color={isItemInCart ? 'green' : 'black'}
+              size={27}
+            />
             {/* <Text style={styles.addToCartText}>
               {isItemInCart ? 'REMOVE' : 'ADD'}
             </Text> */}

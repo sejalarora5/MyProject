@@ -81,7 +81,7 @@ const SettingScreen = ({navigation}: Props) => {
       </TouchableOpacity>
       <TouchableOpacity style={styles.listItems}>
         <Ionicons
-          name="home-sharp"
+          name="pricetags-outline"
           size={22}
           color="black"
           style={styles.iconStyle}
@@ -99,7 +99,7 @@ const SettingScreen = ({navigation}: Props) => {
       </TouchableOpacity>
       <TouchableOpacity style={styles.listItems}>
         <Ionicons
-          name="log-out-outline"
+          name="grid-outline"
           size={22}
           color="black"
           style={styles.iconStyle}
@@ -121,7 +121,6 @@ const SettingScreen = ({navigation}: Props) => {
         />
         <Text style={styles.listItemsText}>Logout</Text>
       </TouchableOpacity>
-      {/* <TouchableOpacity style={styles.logoutBtn}></TouchableOpacity> */}
     </View>
   );
 };
@@ -153,7 +152,7 @@ const styles = StyleSheet.create({
     // alignSelf: 'center',
     marginLeft: 30,
   },
-  listItemsText: {fontSize: 20},
+  listItemsText: {fontSize: 20, fontFamily: 'Mukta-Semibold'},
   iconStyle: {
     marginRight: 30,
   },
