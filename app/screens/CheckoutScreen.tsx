@@ -1,11 +1,12 @@
 import {
+  Animated,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../App';
 import Modal from 'react-native-modal';
@@ -20,8 +21,14 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Checkout'>;
 const CheckoutScreen = ({route, navigation}: Props) => {
   const {totalItems, totalPrice} = route.params;
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  // const fadeAnim = useRef(new Animated.Value(0)).current;
   const handleToggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
+    // Animated.timing(fadeAnim, {
+    //   toValue: 1,
+    //   duration: 100000,
+    //   useNativeDriver: true,
+    // }).start();
   };
   const dispatch = useDispatch();
   const addressDetails = useSelector(state => state.address.addressDetails);

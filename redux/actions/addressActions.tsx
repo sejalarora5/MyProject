@@ -6,9 +6,7 @@ import {
 export const saveAddressDetails = (newAddressDetails: any) => {
   return {
     type: SAVE_ADDRESS_DETAILS,
-    payload: {
-      address: newAddressDetails,
-    },
+    payload: newAddressDetails,
   };
 };
 
@@ -18,4 +16,3 @@ export const saveAddressDetails = (newAddressDetails: any) => {
 //     payload: addressId,
 //   };
 // };
-// id: v4.(),

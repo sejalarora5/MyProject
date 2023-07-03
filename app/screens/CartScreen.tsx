@@ -8,7 +8,6 @@ import {
   View,
 } from 'react-native';
 import React from 'react';
-// import RazorpayCheckout from 'react-native-razorpay';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useDispatch, useSelector} from 'react-redux';
 import {

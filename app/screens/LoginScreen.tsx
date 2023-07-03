@@ -37,27 +37,27 @@ GoogleSignin.configure({
 });
 const LoginScreen = ({navigation}: Props) => {
   const dispatch = useDispatch();
-  const handleGoogleSignIn = async () => {
-    try {
-      await GoogleSignin.hasPlayServices();
-      const {idToken} = await GoogleSignin.signIn();
-      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-      dispatch(setUserLoggedIn());
-      console.log('User signed in with Google!');
-      navigation.navigate('Home');
-      return auth().signInWithCredential(googleCredential);
-    } catch (error) {
-      if (error === statusCodes.SIGN_IN_CANCELLED) {
-        console.log('Google sign-in cancelled');
-      } else if (error === statusCodes.IN_PROGRESS) {
-        console.log('Google sign-in in progress');
-      } else if (error === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        console.log('Play services not available');
-      } else {
-        console.error(error);
-      }
-    }
-  };
+  // const handleGoogleSignIn = async () => {
+  //   try {
+  //     await GoogleSignin.hasPlayServices();
+  //     const {idToken} = await GoogleSignin.signIn();
+  //     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+  //     dispatch(setUserLoggedIn());
+  //     console.log('User signed in with Google!');
+  //     navigation.navigate('Home');
+  //     return auth().signInWithCredential(googleCredential);
+  //   } catch (error) {
+  //     if (error === statusCodes.SIGN_IN_CANCELLED) {
+  //       console.log('Google sign-in cancelled');
+  //     } else if (error === statusCodes.IN_PROGRESS) {
+  //       console.log('Google sign-in in progress');
+  //     } else if (error === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+  //       console.log('Play services not available');
+  //     } else {
+  //       console.error(error);
+  //     }
+  //   }
+  // };
 
   const handlePress = (values: any) => {
     auth()
